@@ -267,9 +267,8 @@ class _MainWidgetState extends State<MainWidget> {
                               heightByValue: array[i],
                               widthByArraySize:
                                   MediaQuery.of(context).size.width *
-                                      0.86 /
-                                      array.length *
-                                      0.4,
+                                      0.85 /
+                                      array.length,
                             ),
                         ],
                       ),
