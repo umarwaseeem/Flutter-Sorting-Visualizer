@@ -25,8 +25,8 @@ class ArrayItemWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 1),
           width: widthByArraySize,
-          height:
-              MediaQuery.of(context).size.height * 0.01 + heightByValue.value,
+          height: MediaQuery.of(context).size.height * 0.01 +
+              heightByValue.value * 0.5,
           child: Container(
             decoration: BoxDecoration(
               color: heightByValue.color,
