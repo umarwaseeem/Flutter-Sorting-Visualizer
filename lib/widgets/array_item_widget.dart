@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:sorting_visualizer_flutter/models/array_item.dart';
 
-class ArrayItemWidget extends StatelessWidget {
+class ArrayItemWidget extends StatefulWidget {
   const ArrayItemWidget({
     Key? key,
     required this.heightByValue,
     required this.widthByArraySize,
+    required this.speed,
   }) : super(key: key);
 
   final ArrayItem heightByValue;
   final double widthByArraySize;
-  // builder  method
+  final int speed;
 
+  @override
+  State<ArrayItemWidget> createState() => _ArrayItemWidgetState();
+}
+
+class _ArrayItemWidgetState extends State<ArrayItemWidget> {
+  // builder  method
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(
-          heightByValue.value.toString(),
+          widget.heightByValue.value.toString(),
           style: const TextStyle(
               color: Colors.red, fontWeight: FontWeight.w700, fontSize: 15),
         ),
-        Container(
+        AnimatedContainer(
+          foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black, width: 1),
+          ),
+          curve: Curves.easeInOutQuart,
+          duration: Duration(milliseconds: widget.speed),
           margin: const EdgeInsets.symmetric(horizontal: 1),
-          width: widthByArraySize,
+          width: widget.widthByArraySize,
           height: MediaQuery.of(context).size.height * 0.01 +
-              heightByValue.value * 0.5,
-          child: Container(
-            decoration: BoxDecoration(
-              color: heightByValue.color,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
+              widget.heightByValue.value * 0.5,
+          decoration: BoxDecoration(
+            color: widget.heightByValue.color,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
         ),
       ],

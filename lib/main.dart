@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Sorting Visualizer',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -55,7 +56,7 @@ class _MainWidgetState extends State<MainWidget> {
           onPressed: () {
             setState(() {
               if (speed > 0) {
-                speed -= 100;
+                speed -= 50;
               }
             });
           },
@@ -128,6 +129,11 @@ class _MainWidgetState extends State<MainWidget> {
                         : null,
                     child: const Text("Selection Sort"),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   ElevatedButton(
                     onPressed: controller.text.isNotEmpty || array.isNotEmpty
                         ? () async {
@@ -158,6 +164,11 @@ class _MainWidgetState extends State<MainWidget> {
                         : null,
                     child: const Text("Quick Sort"),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   ElevatedButton(
                     onPressed: controller.text.isNotEmpty || array.isNotEmpty
                         ? () async {
@@ -190,11 +201,15 @@ class _MainWidgetState extends State<MainWidget> {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // get random array values between 0 - 1000
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
                     onPressed: () {
                       setState(() {
                         array = [];
@@ -248,6 +263,7 @@ class _MainWidgetState extends State<MainWidget> {
                         children: [
                           for (int i = 0; i < array.length; i++)
                             ArrayItemWidget(
+                              speed: speed,
                               heightByValue: array[i],
                               widthByArraySize:
                                   MediaQuery.of(context).size.width *
