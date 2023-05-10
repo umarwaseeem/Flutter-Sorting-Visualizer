@@ -1,3 +1,5 @@
+# this github actions workflow creates an apk android build
+
 name: Android Build Workflow
 
 on:
@@ -5,6 +7,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
