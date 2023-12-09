@@ -2,7 +2,7 @@
 
 ## Live Demo
 
-[Live Demo](https://flutter-sorting-visualizer.vercel.app/)
+[https://flutter-sorting-visualizer.vercel.app/](https://flutter-sorting-visualizer.vercel.app/)
 
 ## Video Demo
 
