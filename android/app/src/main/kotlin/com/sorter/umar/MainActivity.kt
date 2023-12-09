@@ -1,4 +1,4 @@
-package com.example.sorting_visualizer_flutter
+package com.sorter.umar
 
 import io.flutter.embedding.android.FlutterActivity
 

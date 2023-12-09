@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sorting_visualizer_flutter">
+    package="com.sorter.umar">
    <application
         android:label="sorting_visualizer_flutter"
         android:name="${applicationName}"

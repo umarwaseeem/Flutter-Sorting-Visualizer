@@ -39,248 +39,254 @@ class _MainWidgetState extends State<MainWidget> {
   final controller = TextEditingController();
 
   int speed = 1000;
+  int multiplier = 1;
+
+  void speedSetter() {
+    if (multiplier > 0) {
+      setState(() {
+        speed = 1000 ~/ multiplier;
+      });
+    } else {
+      setState(() {
+        multiplier = 1;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(actions: [
-        Center(
-          child: Text(
-            "Speed $speed ms",
-            style: const TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+      child: Scaffold(
+        appBar: AppBar(actions: [
+          Center(
+            child: Text(
+              "$multiplier x Speed",
+              style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+            ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              if (speed > 0) {
-                speed -= 50;
-              }
-            });
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              speed += 100;
-            });
-          },
-          icon: const Icon(Icons.remove),
-        ),
-      ]),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.blueGrey.withOpacity(0.2),
-                  suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
+          IconButton(
+            onPressed: () {
+              multiplier--;
+              speedSetter();
+            },
+            icon: const Icon(Icons.remove),
+          ),
+          IconButton(
+            onPressed: () {
+              multiplier++;
+              speedSetter();
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ]),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.blueGrey.withOpacity(0.2),
+                    suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            controller.clear();
+                          });
+                        }),
+                    border: const OutlineInputBorder(),
+                    labelText: 'Enter comma or space separated numbers',
+                  ),
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize bubble sort
+                              await bubbleSort();
+                            }
+                          : null,
+                      child: const Text("Bubble Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize insersion sort
+                              await insertionSort();
+                            }
+                          : null,
+                      child: const Text("Insersion Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await selectionSort();
+                            }
+                          : null,
+                      child: const Text("Selection Sort"),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await countSort();
+                            }
+                          : null,
+                      child: const Text("Count Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await bucketSort();
+                            }
+                          : null,
+                      child: const Text("Bucket Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await quickSort();
+                            }
+                          : null,
+                      child: const Text("Quick Sort"),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await radixSort();
+                            }
+                          : null,
+                      child: const Text("Radix Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await heapSort();
+                            }
+                          : null,
+                      child: const Text("Heap Sort"),
+                    ),
+                    ElevatedButton(
+                      onPressed: controller.text.isNotEmpty || array.isNotEmpty
+                          ? () async {
+                              saveInputValuesToArray();
+                              // visualize selection sort
+                              await mergeSort();
+                            }
+                          : null,
+                      child: const Text("Merge Sort"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // get random array values between 0 - 1000
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
                       onPressed: () {
                         setState(() {
+                          array = [];
                           controller.clear();
+                          // number of items in array accotding to screen width
+                          final numberOfItems = MediaQuery.of(context).size.width ~/ 32;
+                          for (int i = 0; i < numberOfItems; i++) {
+                            int randValue = Random().nextInt(1000);
+                            array.add(
+                              ArrayItem(value: randValue, color: Colors.blueGrey),
+                            );
+                            controller.text += "$randValue";
+                            if (i != numberOfItems - 1) {
+                              controller.text += ",";
+                            }
+                          }
                         });
-                      }),
-                  border: const OutlineInputBorder(),
-                  labelText: 'Enter comma or space separated numbers',
-                ),
-                onChanged: (value) {
-                  setState(() {});
-                },
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize bubble sort
-                            await bubbleSort();
-                          }
-                        : null,
-                    child: const Text("Bubble Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize insersion sort
-                            await insertionSort();
-                          }
-                        : null,
-                    child: const Text("Insersion Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await selectionSort();
-                          }
-                        : null,
-                    child: const Text("Selection Sort"),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await countSort();
-                          }
-                        : null,
-                    child: const Text("Count Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await bucketSort();
-                          }
-                        : null,
-                    child: const Text("Bucket Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await quickSort();
-                          }
-                        : null,
-                    child: const Text("Quick Sort"),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await radixSort();
-                          }
-                        : null,
-                    child: const Text("Radix Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await heapSort();
-                          }
-                        : null,
-                    child: const Text("Heap Sort"),
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.text.isNotEmpty || array.isNotEmpty
-                        ? () async {
-                            saveInputValuesToArray();
-                            // visualize selection sort
-                            await mergeSort();
-                          }
-                        : null,
-                    child: const Text("Merge Sort"),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // get random array values between 0 - 1000
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      },
+                      child: const Text("Randomize Array"),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        array = [];
-                        controller.clear();
-                        // number of items in array accotding to screen width
-                        final numberOfItems =
-                            MediaQuery.of(context).size.width ~/ 30;
-                        for (int i = 0; i < numberOfItems; i++) {
-                          int randValue = Random().nextInt(1000);
-                          array.add(
-                            ArrayItem(value: randValue, color: Colors.blueGrey),
-                          );
-                          controller.text += "$randValue";
-                          if (i != numberOfItems - 1) {
-                            controller.text += ",";
-                          }
-                        }
-                      });
-                    },
-                    child: const Text("Randomize Array"),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.72,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey.withOpacity(0.1),
-                    border: Border.all(color: Colors.blueGrey),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              array.clear();
-                            });
-                          },
-                          icon: const Icon(Icons.clear, color: Colors.red),
-                        ),
-                      ),
-                      Row(
-                        // mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          for (int i = 0; i < array.length; i++)
-                            ArrayItemWidget(
-                              speed: speed,
-                              heightByValue: array[i],
-                              widthByArraySize:
-                                  MediaQuery.of(context).size.width *
-                                      0.85 /
-                                      array.length,
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              )
-            ],
+                const SizedBox(height: 20),
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.72,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey.withOpacity(0.1),
+                      border: Border.all(color: Colors.blueGrey),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                array.clear();
+                              });
+                            },
+                            icon: const Icon(Icons.clear, color: Colors.red),
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            for (int i = 0; i < array.length; i++)
+                              ArrayItemWidget(
+                                speed: speed,
+                                heightByValue: array[i],
+                                widthByArraySize: MediaQuery.of(context).size.width * 0.7 / array.length,
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 
   Future<void> bubbleSort() async {
@@ -655,15 +661,14 @@ class _MainWidgetState extends State<MainWidget> {
   }
 }
 
-class SortButton extends StatelessWidget {
-  const SortButton(
-      {super.key, required this.sortFunction, required this.sortName});
+// class SortButton extends StatelessWidget {
+//   const SortButton({super.key, required this.sortFunction, required this.sortName});
 
-  final Function sortFunction;
-  final String sortName;
+//   final Function sortFunction;
+//   final String sortName;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
